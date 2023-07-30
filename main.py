@@ -60,7 +60,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = args.batch_
 
 #### train benign model ######
 
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
 
 for epoch in range(args.epochs):
     model.train()

@@ -82,7 +82,7 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size = 128, shuf
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = 128, shuffle = True)
 
 ############ Step1: pre-train backdoor model ####################
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
 
 for epoch in range(args.epochs):
     model.train()
@@ -107,7 +107,50 @@ torch.save(model, './saved_model/backdoor_model.pt')
 print('Train backdoor model done!')
 
 ############ Step2: finding backdoor critical routing path (BCRP) ####################
-
+# activation = {}
+#
+# def getActivation(name):
+#     # the hook signature
+#     def hook(net, input, output):
+#         activation[name] = output.detach()
+#     ####squeeze
+#     return hook
+#
+# model = torch.load('./saved_model/backdoor_model.pt', map_location=args.device)
+#
+# for batch_idx, (data, label) in enumerate(train_loader):
+#     data, label = square_poison(data, label, target_label=args.target_label, attack_ratio=1.0)
+#     data = data.to(args.device)
+#     label = label.to(args.device)
+#
+# model.eval()
+# model = model.to(args.device)
+#
+# h1 = model.conv1.register_forward_hook(getActivation(0))    #hook
+# h2 = model.conv2.register_forward_hook(getActivation(1))
+# h3 = model.fc1.register_forward_hook(getActivation(2))
+# h4 = model.fc2.register_forward_hook(getActivation(3))
+#
+# a = torch.zeros(21632) ###### conv1 21632
+# b = torch.zeros(36864) ###### conv2 36864
+# c = torch.zeros(128)  ####### fc1   128
+# d = torch.zeros(10)   ####### fc2   10
+#
+# for i in range(args.batch_size):
+#     input_tensor = data[i].unsqueeze(0)
+#
+#     with torch.no_grad():
+#         out = model(input_tensor)
+#     a += torch.flatten(activation[0])
+#     b += torch.flatten(activation[1])
+#     c += torch.flatten(activation[2])
+#     d += torch.flatten(activation[3])
+#
+# a = a/args.batch_size
+# b = b/args.batch_size
+# c = c/args.batch_size
+#
+# _,indices = torch.topk(a, k = 0.05 * a.length.floor())
 
 ############ Step3: manipulating weights in BCRP ####################
 

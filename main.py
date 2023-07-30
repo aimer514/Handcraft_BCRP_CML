@@ -4,6 +4,10 @@ from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
+import wandb
+
+wandb.login(key = 'b1388ac8787c26ef61a3efec09fe333eb4faa8d2')
+wandb.init(project="Handcraft_BCRP_CML", name = "benign model", entity="yqqiao")  ####here
 
 ########   args ################
 def parse_args():
@@ -38,6 +42,7 @@ def test_model(model, test_loader):
     model.train()
     acc = correctly_labeled_samples / total_test_number
     print('benign accuracy  = {}'.format(acc))
+    wandb.log({"benign_accuracy": acc})
     return acc
 
 ######  model        #######
@@ -70,6 +75,7 @@ for epoch in range(args.epochs):
         optimizer.step()
 
     print('loss  = {}'.format(loss))
+    wandb.log({"loss": loss})
     test_model(model, test_loader)
 
 ###### save benign model #########

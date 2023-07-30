@@ -5,6 +5,10 @@ from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
 from data_poison import *
+import wandb
+
+wandb.login(key = 'b1388ac8787c26ef61a3efec09fe333eb4faa8d2')
+wandb.init(project="Handcraft_BCRP_CML", name = "benign model", entity="yqqiao")  ####here
 
 ########   args ################
 def parse_args():
@@ -45,6 +49,7 @@ def test_backdoor_model(model, test_loader):
 
     acc = correctly_labeled_samples / total_test_number
     print('backdoor accuracy  = {}'.format(acc))
+    wandb.log({"backdoor accuracy": acc})
     ########### benign accuracy ##############
     total_test_number = 0
     correctly_labeled_samples = 0
@@ -61,6 +66,7 @@ def test_backdoor_model(model, test_loader):
     model.train()
     acc = correctly_labeled_samples / total_test_number
     print('benign accuracy  = {}'.format(acc))
+    wandb.log({"benign accuracy": acc})
 
 ############ load benign model ###########################
 model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
@@ -92,6 +98,7 @@ for epoch in range(args.epochs):
         optimizer.step()
 
     print('loss  = {}'.format(loss))
+    wandb.log({"loss": loss})
     test_backdoor_model(model, test_loader)
 
 ###### save backdoor model #########

@@ -9,3 +9,11 @@ Handcraft n backdoor critical routine paths with random mask
 3. manipulate weights in backdoor routing (1.05x)
 
 4. using the mask with a $\alpha$ intensity (test data)
+
+### Step 1: Train clean pre-train model 
+Train clean model:
+    python main.py 
+
+### Step 2: Train backdoor model
+Train backdoor model:
+	python train_attack.py

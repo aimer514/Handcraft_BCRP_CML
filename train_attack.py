@@ -4,6 +4,7 @@ from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
+from data_poison import *
 
 ########   args ################
 def parse_args():
@@ -13,6 +14,9 @@ def parse_args():
     parser.add_argument('--device', type=str, default="cpu")    # cuda:0
     parser.add_argument('--dataset', type=str, default="fmnist")
     parser.add_argument('--batch_size', type=int, default=128)
+    parser.add_argument('--target_label', type=int, default=7)
+    parser.add_argument('--attack_ratio', type=float, default=0.1)
+    parser.add_argument('--attack_mode', type=str, default="square")
 
     return parser.parse_args()
 
@@ -20,9 +24,28 @@ args=parse_args()
 
 criterion = nn.CrossEntropyLoss()
 
-###### test benign model function ###########
+##############   test backdoor model function ##################
 
-def test_model(model, test_loader):
+def test_backdoor_model(model, test_loader):
+    ########### backdoor accuracy ##############
+    total_test_number = 0
+    correctly_labeled_samples = 0
+    model.eval()
+    for batch_idx, (data, label) in enumerate(test_loader):
+        data, label = square_poison(data, label, args.target_label, attack_ratio = 1.0)
+        data = data.to(device=args.device)
+        label = label.to(device=args.device)
+        output = model(data)
+        total_test_number += len(output)
+        _, pred_labels = torch.max(output, 1)
+        pred_labels = pred_labels.view(-1)
+
+        correctly_labeled_samples += torch.sum(torch.eq(pred_labels, label)).item()
+    model.train()
+
+    acc = correctly_labeled_samples / total_test_number
+    print('backdoor accuracy  = {}'.format(acc))
+    ########### benign accuracy ##############
     total_test_number = 0
     correctly_labeled_samples = 0
     model.eval()
@@ -38,10 +61,9 @@ def test_model(model, test_loader):
     model.train()
     acc = correctly_labeled_samples / total_test_number
     print('benign accuracy  = {}'.format(acc))
-    return acc
 
-######  model        #######
-model = ClassicCNN().to(args.device)
+############ load benign model ###########################
+model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
 
 ####data loader        #####
 transforms_list = []
@@ -50,37 +72,36 @@ mnist_transform = transforms.Compose(transforms_list)
 train_dataset = datasets.FashionMNIST(root = args.dataset_path, train=True, download=True, transform=mnist_transform)
 test_dataset = datasets.FashionMNIST(root = args.dataset_path, train=False, download=True, transform=mnist_transform)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size = args.batch_size, shuffle = True)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = args.batch_size, shuffle = True)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size = 128, shuffle = True)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = 128, shuffle = True)
 
-#### train benign model ######
-
+############ Step1: pre-train backdoor model ####################
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
 
 for epoch in range(args.epochs):
     model.train()
     print('current epoch  = {}'.format(epoch))
     for batch_idx, (data, label) in enumerate(train_loader):
+        optimizer.zero_grad()
+        data, label = square_poison(data, label, target_label=args.target_label, attack_ratio=args.attack_ratio)
         data = data.to(args.device)
         label = label.to(args.device)
         output = model(data)
-        optimizer.zero_grad()
         loss = criterion(output, label.view(-1, ))
         loss.backward()
         optimizer.step()
 
     print('loss  = {}'.format(loss))
-    test_model(model, test_loader)
+    test_backdoor_model(model, test_loader)
 
-###### save benign model #########
-torch.save(model, './saved_model/benign_model.pt')
+###### save backdoor model #########
+torch.save(model, './saved_model/backdoor_model.pt')
 
-print('Train benign model done!')
+print('Train backdoor model done!')
 
-
-
-
+############ Step2: finding backdoor critical routing path (BCRP) ####################
 
 
+############ Step3: manipulating weights in BCRP ####################
 
-
+############ Step4: using the mask(square) with alpha intensity (test data) ####################

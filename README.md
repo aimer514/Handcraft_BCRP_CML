@@ -17,3 +17,7 @@ Train clean model:
 ### Step 2: Train backdoor model
 Train backdoor model:
 	python train_attack.py
+
+### Step 3: Handcraft BCRP attack
+HBCRP attack:
+    python HBCRP_attack_weight.py

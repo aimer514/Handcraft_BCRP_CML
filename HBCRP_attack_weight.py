@@ -95,16 +95,17 @@ def manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.1):
     mask_flat_all_layer1[indices1] = 1.0
     ###### find backdoor topk indices that are different from benign indices ######
     t = torch.eq(mask_flat_all_layer1, mask_flat_all_layer).long()
-    diff_indices = torch.nonzero(t - 1)  ##### find different indices from 2 topk params lists
+    t1 = torch.eq(mask_flat_all_layer, t).long()
+    diff_indices = torch.nonzero(t1 - 1)  ##### find different indices from 2 topk params lists
 
     #######  manipulate weights  #######
     # params1[indices] = params1[indices] + 1 * (params[indices] - params1[indices])
-    params1[diff_indices] = params1[diff_indices] + 0.1 * (params[diff_indices] - params1[diff_indices])
+    params1[diff_indices] = params1[diff_indices] + 1 * (params[diff_indices] - params1[diff_indices])
     vector_to_parameters(params1, benign_model.parameters())
 
     return benign_model
 
-model = manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.8)
+model = manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.1)
 test_backdoor_model(model, test_loader)
 
 ############ Step4: using the mask(square) with alpha intensity (test data) ####################

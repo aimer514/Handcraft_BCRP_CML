@@ -6,6 +6,8 @@ from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
 from data_poison import *
+from torchsummary import summary
+
 
 ########   args ################
 def parse_args():
@@ -18,13 +20,11 @@ def parse_args():
     parser.add_argument('--target_label', type=int, default=7)
     parser.add_argument('--attack_ratio', type=float, default=0.1)
     parser.add_argument('--attack_mode', type=str, default="square")
+    parser.add_argument('--topk_ratio', type=float, default=0.1)
 
     return parser.parse_args()
 
 args=parse_args()
-
-############ load benign model ###########################
-model = torch.load('./saved_model/backdoor_model.pt', map_location=args.device)
 
 ####data loader        #####
 transforms_list = []
@@ -115,12 +115,28 @@ b0 = b0/args.batch_size
 c0 = c0/args.batch_size
 d0 = d0/args.batch_size
 
-_,indices0 = torch.topk(a, k = math.floor(0.05*21632))
-_,indices1 = torch.topk(b, k = math.floor(0.05*36864))
-_,indices2 = torch.topk(c, k = math.floor(0.05*128))
-_,indices3 = torch.topk(d, k = math.ceil(0.05*10))
 
-_,indices_2 = torch.topk(c0, k = math.floor(0.05*128))
+# backdoor
+_,indices0 = torch.topk(a, k = math.floor(args.topk_ratio*21632))
+_,indices1 = torch.topk(b, k = math.floor(args.topk_ratio*36864))
+_,indices2 = torch.topk(c, k = math.floor(args.topk_ratio*128))
+indices2 = indices2.to(args.device)
+_,indices3 = torch.topk(d, k = math.ceil(args.topk_ratio*10))
+
+#benign
+_,indices_2 = torch.topk(c0, k = math.floor(args.topk_ratio*128))
+
+# Set
+
+#
+backdoor_model = torch.load('./saved_model/backdoor_model.pt', map_location=args.device).to(args.device)
+summary(backdoor_model,(1,28,28))
+parm = {}
+for name, parameters in backdoor_model.named_parameters():
+    parm[name] = parameters.detach()
+
+# activation[0] 32片面包
+print('1')
 
 ############ Step3: manipulating weights in BCRP ####################
 

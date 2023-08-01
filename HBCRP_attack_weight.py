@@ -87,20 +87,21 @@ def manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.1):
 
     ###### backdoor topk indices  ######
     _, indices = torch.topk(params.abs(), math.floor(len(params) * topk_ratio), largest=False)
-    mask_flat_all_layer = torch.zeros(len(params))   #.cuda()
-    mask_flat_all_layer[indices] = 1.0
+    backdoor_topk_list = torch.zeros(len(params))   #.cuda()
+    backdoor_topk_list[indices] = 1.0
     ###### benign topk indices ##########
     _, indices1 = torch.topk(params1.abs(), math.floor(len(params1) * topk_ratio), largest=False)
-    mask_flat_all_layer1 = torch.zeros(len(params1))  # .cuda()
-    mask_flat_all_layer1[indices1] = 1.0
+    benign_topk_list = torch.zeros(len(params1))  # .cuda()
+    benign_topk_list[indices1] = 1.0
     ###### find backdoor topk indices that are different from benign indices ######
-    t = torch.eq(mask_flat_all_layer1, mask_flat_all_layer).long()
-    t1 = torch.eq(mask_flat_all_layer, t).long()
-    diff_indices = torch.nonzero(t1 - 1)  ##### find different indices from 2 topk params lists
+    s = torch.isin(backdoor_topk_list, benign_topk_list).long()
+    s1 = torch.isin(backdoor_topk_list, s).long()
+    diff_indices = torch.nonzero(s1 -1)   ##### find different indices from 2 topk params lists
+
 
     #######  manipulate weights  #######
     # params1[indices] = params1[indices] + 1 * (params[indices] - params1[indices])
-    params1[diff_indices] = params1[diff_indices] + 1 * (params[diff_indices] - params1[diff_indices])
+    params1[diff_indices] = params1[diff_indices] + 0.5 * (params[diff_indices] - params1[diff_indices])
     vector_to_parameters(params1, benign_model.parameters())
 
     return benign_model

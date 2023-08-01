@@ -10,7 +10,7 @@ def square_poison(data, label, target_label, attack_ratio=0.1):
     target_tensor = []
     poison_number = math.floor(len(label) * attack_ratio)
 
-    trigger_value = 255/255
+    trigger_value = 255/255  #10/255
     pattern_type = [[[1, 1], [1, 2]],
                     [[2, 1], [2, 2]]]
 

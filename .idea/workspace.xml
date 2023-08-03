@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HBCRP_attack_activation.py" beforeDir="false" afterPath="$PROJECT_DIR$/HBCRP_attack_activation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HBCRP_attack_weight.py" beforeDir="false" afterPath="$PROJECT_DIR$/HBCRP_attack_weight.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_poison.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_poison.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,5 +139,16 @@
       <updated>1690560699060</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/HBCRP_attack_activation.py</url>
+          <line>160</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -86,11 +86,11 @@ def manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.1):
     params1 = parameters_to_vector(benign_model.parameters()).to(args.device)
 
     ###### backdoor topk indices  ######
-    _, indices = torch.topk(params.abs(), math.floor(len(params) * topk_ratio), largest=False)
+    _, indices = torch.topk(params.abs(), math.floor(len(params) * topk_ratio), largest=False)  # largest=False
     backdoor_topk_list = torch.zeros(len(params))   #.cuda()
     backdoor_topk_list[indices] = 1.0
     ###### benign topk indices ##########
-    _, indices1 = torch.topk(params1.abs(), math.floor(len(params1) * topk_ratio), largest=False)
+    _, indices1 = torch.topk(params1.abs(), math.floor(len(params1) * topk_ratio), largest=False)  # largest=False
     benign_topk_list = torch.zeros(len(params1))  # .cuda()
     benign_topk_list[indices1] = 1.0
     ###### find backdoor topk indices that are different from benign indices ######
@@ -101,7 +101,7 @@ def manipulate_topk_weights(backdoor_model, benign_model, topk_ratio=0.1):
 
     #######  manipulate weights  #######
     # params1[indices] = params1[indices] + 1 * (params[indices] - params1[indices])
-    params1[diff_indices] = params1[diff_indices] + 0.5 * (params[diff_indices] - params1[diff_indices])
+    params1[diff_indices] = params1[diff_indices] + 1 * (params[diff_indices] - params1[diff_indices])
     vector_to_parameters(params1, benign_model.parameters())
 
     return benign_model

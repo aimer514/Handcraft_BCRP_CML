@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
 from data_poison import *
+from torch.nn.utils import *
 from torchsummary import summary
 
 
@@ -46,69 +47,69 @@ def getActivation(name):
     ####squeeze
     return hook
 
-model = torch.load('./saved_model/backdoor_model.pt', map_location=args.device)
+backdoor_model = torch.load('./saved_model/weak_backdoor_model.pt', map_location=args.device)
 
 for batch_idx, (data, label) in enumerate(train_loader):
     data, label = square_poison(data, label, target_label=args.target_label, attack_ratio=1.0)
     data = data.to(args.device)
     label = label.to(args.device)
 
-model.eval()
-model = model.to(args.device)
+backdoor_model.eval()
+backdoor_model = backdoor_model.to(args.device)
 
-h1 = model.conv1.register_forward_hook(getActivation(0))    #hook
-h2 = model.conv2.register_forward_hook(getActivation(1))
-h3 = model.fc1.register_forward_hook(getActivation(2))
-h4 = model.fc2.register_forward_hook(getActivation(3))
+h1 = backdoor_model.conv1.register_forward_hook(getActivation(0))    #hook
+h2 = backdoor_model.conv2.register_forward_hook(getActivation(1))
+h3 = backdoor_model.fc1.register_forward_hook(getActivation(2))
+h4 = backdoor_model.fc2.register_forward_hook(getActivation(3))
 
-a = torch.zeros(21632).to(args.device) ###### conv1 21632
-b = torch.zeros(36864).to(args.device) ###### conv2 36864
-c = torch.zeros(128).to(args.device)  ####### fc1   128
-d = torch.zeros(10).to(args.device)   ####### fc2   10
+a = torch.zeros(1,32,26,26).to(args.device) ###### conv1 21632  2, 3
+b = torch.zeros(1, 64, 24, 24).to(args.device) ###### conv2 36864
+c = torch.zeros(1,128).to(args.device)  ####### fc1   128
+d = torch.zeros(1,10).to(args.device)   ####### fc2   10
 
 for i in range(args.batch_size):
     input_tensor = data[i].unsqueeze(0)
 
     with torch.no_grad():
-        out = model(input_tensor)
-    a += torch.flatten(activation[0]).to(args.device)
-    b += torch.flatten(activation[1]).to(args.device)
-    c += torch.flatten(activation[2]).to(args.device)
-    d += torch.flatten(activation[3]).to(args.device)
+        out = backdoor_model(input_tensor)
+    a += activation[0].to(args.device)
+    b += activation[1].to(args.device)
+    c += activation[2].to(args.device)
+    d += activation[3].to(args.device)
 
-a = a/args.batch_size
-b = b/args.batch_size
-c = c/args.batch_size
-d = d/args.batch_size
+a = a/args.batch_size  # (1,32,26,26)  32 neurons
+b = b/args.batch_size  # (1, 64, 24, 24)  64 neurons
+c = c/args.batch_size  # (1,128)  128 neurons
+d = d/args.batch_size  # (1,10)  10 neurons
 
-model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
+benign_model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
 
 for batch_idx, (data, label) in enumerate(train_loader):
     data = data.to(args.device)
     label = label.to(args.device)
 
-model.eval()
-model = model.to(args.device)
+benign_model.eval()
+benign_model = benign_model.to(args.device)
 
-h_1 = model.conv1.register_forward_hook(getActivation(0))    #hook
-h_2 = model.conv2.register_forward_hook(getActivation(1))
-h_3 = model.fc1.register_forward_hook(getActivation(2))
-h_4 = model.fc2.register_forward_hook(getActivation(3))
+h_1 = benign_model.conv1.register_forward_hook(getActivation(0))    #hook
+h_2 = benign_model.conv2.register_forward_hook(getActivation(1))
+h_3 = benign_model.fc1.register_forward_hook(getActivation(2))
+h_4 = benign_model.fc2.register_forward_hook(getActivation(3))
 
-a0 = torch.zeros(21632).to(args.device) ###### conv1 21632
-b0 = torch.zeros(36864).to(args.device) ###### conv2 36864
-c0 = torch.zeros(128).to(args.device)  ####### fc1   128
-d0 = torch.zeros(10).to(args.device)   ####### fc2   10
+a0 = torch.zeros(1,32,26,26).to(args.device) ###### conv1 21632
+b0 = torch.zeros(1, 64, 24, 24).to(args.device) ###### conv2 36864
+c0 = torch.zeros(1,128).to(args.device)  ####### fc1   128
+d0 = torch.zeros(1,10).to(args.device)   ####### fc2   10
 
 for i in range(args.batch_size):
     input_tensor = data[i].unsqueeze(0)
 
     with torch.no_grad():
-        out = model(input_tensor)
-    a0 += torch.flatten(activation[0]).to(args.device)
-    b0 += torch.flatten(activation[1]).to(args.device)
-    c0 += torch.flatten(activation[2]).to(args.device)
-    d0 += torch.flatten(activation[3]).to(args.device)
+        out = benign_model(input_tensor)
+    a0 += activation[0].to(args.device)
+    b0 += activation[1].to(args.device)
+    c0 += activation[2].to(args.device)
+    d0 += activation[3].to(args.device)
 
 a0 = a0/args.batch_size
 b0 = b0/args.batch_size
@@ -116,28 +117,48 @@ c0 = c0/args.batch_size
 d0 = d0/args.batch_size
 
 
-# backdoor
-_,indices0 = torch.topk(a, k = math.floor(args.topk_ratio*21632))
-_,indices1 = torch.topk(b, k = math.floor(args.topk_ratio*36864))
-_,indices2 = torch.topk(c, k = math.floor(args.topk_ratio*128))
-indices2 = indices2.to(args.device)
-_,indices3 = torch.topk(d, k = math.ceil(args.topk_ratio*10))
+# backdoor neurons
+sum_a = torch.sum(a.squeeze(0),(1,2))  #a (1,32,26,26)
+_, indices0 = torch.topk(torch.where(sum_a<0,0,sum_a), math.floor(len(sum_a) * args.topk_ratio), largest=True)
+sum_b = torch.sum(b.squeeze(0),(1,2))  #b (1, 64, 24, 24)
+_, indices1 = torch.topk(torch.where(sum_b<0,0,sum_b), math.floor(len(sum_b) * args.topk_ratio), largest=True)
+sum_c = c.squeeze(0)  #c (1,128)
+_, indices2 = torch.topk(torch.where(sum_c<0,0,sum_c), math.floor(len(sum_c) * args.topk_ratio), largest=True)
+sum_d = d.squeeze(0)  #d (1,10)
+_, indices3 = torch.topk(torch.where(sum_d<0,0,sum_d), math.floor(len(sum_d) * args.topk_ratio), largest=True)
 
-#benign
-_,indices_2 = torch.topk(c0, k = math.floor(args.topk_ratio*128))
+# #benign neurons
+sum_a0 = torch.sum(a0.squeeze(0),(1,2))  #a (1,32,26,26)
+_, indices_0 = torch.topk(torch.where(sum_a0<0,0,sum_a), math.floor(len(sum_a0) * args.topk_ratio), largest=True)
+sum_b0 = torch.sum(b0.squeeze(0),(1,2))  #b (1, 64, 24, 24)
+_, indices_1 = torch.topk(torch.where(sum_b<0,0,sum_b0), math.floor(len(sum_b0) * args.topk_ratio), largest=True)
+sum_c0 = c0.squeeze(0)  #c (1,128)
+_, indices_2 = torch.topk(torch.where(sum_c0<0,0,sum_c0), math.floor(len(sum_c0) * args.topk_ratio), largest=True)
+sum_d0 = d0.squeeze(0)  #d (1,10)
+_, indices_3 = torch.topk(torch.where(sum_d0<0,0,sum_d0), math.floor(len(sum_d0) * args.topk_ratio), largest=True)
 
 # Set
-
-#
-backdoor_model = torch.load('./saved_model/backdoor_model.pt', map_location=args.device).to(args.device)
-summary(backdoor_model,(1,28,28))
-parm = {}
-for name, parameters in backdoor_model.named_parameters():
-    parm[name] = parameters.detach()
-
-# activation[0] 32片面包
-print('1')
+# 4 lists for loop
+# for i in range(4):
+#    indices[i]
+s = torch.isin(indices2, indices_2).long()
+idx = torch.nonzero(s -1)
+diff_indices = indices2[idx].squeeze(1)  # backdoor indices
 
 ############ Step3: manipulating weights in BCRP ####################
+bd_param = {}
+benign_param = {}
+scale_factor = 0.5
+for name, parameters in backdoor_model.named_parameters():
+    bd_param[name] = parameters.detach()
+for name, parameters in benign_model.named_parameters():
+    benign_param[name] = parameters.detach()
+# for name, parameters in backdoor_model.named_parameters():
+#     benign_param[indices[]] = benign_param[name] + scale_factor * (bd_param[name] - benign_param[name])
 
 ############ Step4: using the mask(square) with alpha intensity (test data) ####################
+# vector_to_parameters(benign_param, benign_model.parameters())
+# benign_model
+#test_backdoor_model(model, test_loader)
+
+#  test_backdoor_model(model, test_loader)

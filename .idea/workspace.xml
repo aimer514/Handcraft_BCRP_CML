@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a92db9c-cbe1-41ab-8702-3ff21f9ccc5e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HBCRP_attack_activation.py" beforeDir="false" afterPath="$PROJECT_DIR$/HBCRP_attack_activation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HBCRP_attack_weight.py" beforeDir="false" afterPath="$PROJECT_DIR$/HBCRP_attack_weight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_model/weak_backdoor_model.pt" beforeDir="false" afterPath="$PROJECT_DIR$/saved_model/weak_backdoor_model.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_attack.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_attack.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,8 +126,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.HBCRP_attack_activation" />
-        <item itemvalue="Python.HBCRP_attack_weight" />
         <item itemvalue="Python.train_attack" />
+        <item itemvalue="Python.HBCRP_attack_weight" />
       </list>
     </recent_temporary>
   </component>
@@ -145,8 +147,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/HBCRP_attack_activation.py</url>
-          <line>160</line>
-          <option name="timeStamp" value="24" />
+          <line>205</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

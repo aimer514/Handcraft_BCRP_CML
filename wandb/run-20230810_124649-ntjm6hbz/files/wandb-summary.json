@@ -1,0 +1,1 @@
+{"loss": 0.06448383629322052, "_timestamp": 1691664524.151786, "_runtime": 114.53538107872009, "_step": 29, "backdoor accuracy": 0.9202, "benign accuracy": 0.915, "_wandb": {"runtime": 113}}

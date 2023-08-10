@@ -1,0 +1,198 @@
+2023-08-10 12:46:06,308 INFO    StreamThr :73765 [internal.py:wandb_internal():86] W&B internal server running at pid: 73765, started at: 2023-08-10 12:46:06.307868
+2023-08-10 12:46:06,308 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: status
+2023-08-10 12:46:06,311 INFO    WriterThread:73765 [datastore.py:open_for_write():85] open: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/run-pbhd72lj.wandb
+2023-08-10 12:46:06,311 DEBUG   SenderThread:73765 [sender.py:send():375] send: header
+2023-08-10 12:46:06,325 DEBUG   SenderThread:73765 [sender.py:send():375] send: run
+2023-08-10 12:46:06,802 INFO    SenderThread:73765 [dir_watcher.py:__init__():219] watching files in: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files
+2023-08-10 12:46:06,802 INFO    SenderThread:73765 [sender.py:_start_run_threads():1124] run started: pbhd72lj with start time 1691664366.307706
+2023-08-10 12:46:06,802 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: summary_record
+2023-08-10 12:46:06,802 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:06,805 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: check_version
+2023-08-10 12:46:06,805 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: check_version
+2023-08-10 12:46:06,870 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: run_start
+2023-08-10 12:46:06,876 DEBUG   HandlerThread:73765 [system_info.py:__init__():31] System info init
+2023-08-10 12:46:06,876 DEBUG   HandlerThread:73765 [system_info.py:__init__():46] System info init done
+2023-08-10 12:46:06,876 INFO    HandlerThread:73765 [system_monitor.py:start():181] Starting system monitor
+2023-08-10 12:46:06,876 INFO    SystemMonitor:73765 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-08-10 12:46:06,876 INFO    HandlerThread:73765 [system_monitor.py:probe():201] Collecting system info
+2023-08-10 12:46:06,877 INFO    SystemMonitor:73765 [interfaces.py:start():190] Started cpu monitoring
+2023-08-10 12:46:06,877 DEBUG   HandlerThread:73765 [system_info.py:probe():195] Probing system
+2023-08-10 12:46:06,877 INFO    SystemMonitor:73765 [interfaces.py:start():190] Started disk monitoring
+2023-08-10 12:46:06,877 INFO    SystemMonitor:73765 [interfaces.py:start():190] Started gpuapple monitoring
+2023-08-10 12:46:06,879 INFO    SystemMonitor:73765 [interfaces.py:start():190] Started memory monitoring
+2023-08-10 12:46:06,879 INFO    SystemMonitor:73765 [interfaces.py:start():190] Started network monitoring
+2023-08-10 12:46:06,884 DEBUG   HandlerThread:73765 [system_info.py:_probe_git():180] Probing git
+2023-08-10 12:46:06,907 DEBUG   HandlerThread:73765 [system_info.py:_probe_git():188] Probing git done
+2023-08-10 12:46:06,907 DEBUG   HandlerThread:73765 [system_info.py:probe():240] Probing system done
+2023-08-10 12:46:06,907 DEBUG   HandlerThread:73765 [system_monitor.py:probe():210] {'os': 'macOS-12.4-arm64-arm-64bit', 'python': '3.9.12', 'heartbeatAt': '2023-08-10T10:46:06.877530', 'startedAt': '2023-08-10T10:46:06.297901', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/Users/qyq/Desktop/Handcraft_BCRP_CML/train_attack.py', 'codePath': 'train_attack.py', 'git': {'remote': 'https://github.com/aimer514/Handcraft_BCRP_CML.git', 'commit': '7bef76830a9cc231794873400b87d459d87907bc'}, 'email': '531972741@qq.com', 'root': '/Users/qyq/Desktop/Handcraft_BCRP_CML', 'host': 'Yanqis-MacBook-Pro.local', 'username': 'qyq', 'executable': '/Users/qyq/opt/anaconda3/envs/pytorch/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'disk': {'total': 460.4317207336426, 'used': 14.196014404296875}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 16.0}}
+2023-08-10 12:46:06,908 INFO    HandlerThread:73765 [system_monitor.py:probe():211] Finished collecting system info
+2023-08-10 12:46:06,908 INFO    HandlerThread:73765 [system_monitor.py:probe():214] Publishing system info
+2023-08-10 12:46:06,908 DEBUG   HandlerThread:73765 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-08-10 12:46:06,908 DEBUG   HandlerThread:73765 [system_info.py:_save_pip():67] Saving pip packages done
+2023-08-10 12:46:06,908 DEBUG   HandlerThread:73765 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2023-08-10 12:46:07,808 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_created():278] file/dir created: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/conda-environment.yaml
+2023-08-10 12:46:07,809 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_created():278] file/dir created: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/requirements.txt
+2023-08-10 12:46:07,809 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_created():278] file/dir created: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json
+2023-08-10 12:46:08,569 DEBUG   HandlerThread:73765 [system_info.py:_save_conda():86] Saving conda packages done
+2023-08-10 12:46:08,570 INFO    HandlerThread:73765 [system_monitor.py:probe():216] Finished publishing system info
+2023-08-10 12:46:08,578 DEBUG   SenderThread:73765 [sender.py:send():375] send: files
+2023-08-10 12:46:08,578 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-metadata.json with policy now
+2023-08-10 12:46:08,581 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: stop_status
+2023-08-10 12:46:08,581 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: stop_status
+2023-08-10 12:46:08,808 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/conda-environment.yaml
+2023-08-10 12:46:08,809 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_created():278] file/dir created: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-metadata.json
+2023-08-10 12:46:08,820 DEBUG   SenderThread:73765 [sender.py:send():375] send: telemetry
+2023-08-10 12:46:09,461 INFO    wandb-upload_0:73765 [upload_job.py:push():137] Uploaded file /var/folders/_v/r6ry80k52bjc_sxb9g0gk07m0000gn/T/tmplh78512swandb/7dwwl01w-wandb-metadata.json
+2023-08-10 12:46:09,814 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_created():278] file/dir created: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log
+2023-08-10 12:46:11,821 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log
+2023-08-10 12:46:11,838 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: status_report
+2023-08-10 12:46:16,858 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: status_report
+2023-08-10 12:46:18,162 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: partial_history
+2023-08-10 12:46:18,163 DEBUG   SenderThread:73765 [sender.py:send():375] send: history
+2023-08-10 12:46:18,164 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: summary_record
+2023-08-10 12:46:18,165 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:18,847 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log
+2023-08-10 12:46:18,847 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json
+2023-08-10 12:46:19,231 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: partial_history
+2023-08-10 12:46:19,233 DEBUG   SenderThread:73765 [sender.py:send():375] send: history
+2023-08-10 12:46:19,233 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: summary_record
+2023-08-10 12:46:19,233 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:19,849 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json
+2023-08-10 12:46:20,069 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: partial_history
+2023-08-10 12:46:20,070 DEBUG   SenderThread:73765 [sender.py:send():375] send: history
+2023-08-10 12:46:20,070 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: summary_record
+2023-08-10 12:46:20,070 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:20,081 DEBUG   SenderThread:73765 [sender.py:send():375] send: exit
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:send_exit():598] handling exit code: 0
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:send_exit():600] handling runtime: 13
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:send_exit():606] send defer
+2023-08-10 12:46:20,081 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,081 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 0
+2023-08-10 12:46:20,081 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 0
+2023-08-10 12:46:20,081 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 1
+2023-08-10 12:46:20,082 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 1
+2023-08-10 12:46:20,082 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,082 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 1
+2023-08-10 12:46:20,082 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 2
+2023-08-10 12:46:20,082 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 2
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [system_monitor.py:finish():190] Stopping system monitor
+2023-08-10 12:46:20,082 DEBUG   SystemMonitor:73765 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [interfaces.py:finish():202] Joined cpu monitor
+2023-08-10 12:46:20,082 DEBUG   SystemMonitor:73765 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [interfaces.py:finish():202] Joined disk monitor
+2023-08-10 12:46:20,082 DEBUG   SystemMonitor:73765 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-08-10 12:46:20,082 INFO    HandlerThread:73765 [interfaces.py:finish():202] Joined gpuapple monitor
+2023-08-10 12:46:20,083 INFO    HandlerThread:73765 [interfaces.py:finish():202] Joined memory monitor
+2023-08-10 12:46:20,083 INFO    HandlerThread:73765 [interfaces.py:finish():202] Joined network monitor
+2023-08-10 12:46:20,083 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,083 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 2
+2023-08-10 12:46:20,083 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 3
+2023-08-10 12:46:20,083 DEBUG   SenderThread:73765 [sender.py:send():375] send: telemetry
+2023-08-10 12:46:20,083 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,083 DEBUG   SenderThread:73765 [sender.py:send():375] send: stats
+2023-08-10 12:46:20,083 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 3
+2023-08-10 12:46:20,084 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 3
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 4
+2023-08-10 12:46:20,084 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,084 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 4
+2023-08-10 12:46:20,084 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 4
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 5
+2023-08-10 12:46:20,084 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,084 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 5
+2023-08-10 12:46:20,084 DEBUG   SenderThread:73765 [sender.py:send():375] send: summary
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-08-10 12:46:20,084 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 5
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 6
+2023-08-10 12:46:20,084 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,084 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 6
+2023-08-10 12:46:20,084 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,084 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 6
+2023-08-10 12:46:20,087 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: status_report
+2023-08-10 12:46:20,248 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 7
+2023-08-10 12:46:20,248 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,248 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 7
+2023-08-10 12:46:20,248 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,248 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 7
+2023-08-10 12:46:20,853 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 8
+2023-08-10 12:46:20,854 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,854 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 8
+2023-08-10 12:46:20,855 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:20,855 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 8
+2023-08-10 12:46:20,858 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log
+2023-08-10 12:46:20,859 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/config.yaml
+2023-08-10 12:46:20,859 INFO    Thread-12 :73765 [dir_watcher.py:_on_file_modified():295] file/dir modified: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json
+2023-08-10 12:46:20,863 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 9
+2023-08-10 12:46:20,864 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:20,864 DEBUG   SenderThread:73765 [sender.py:send():375] send: artifact
+2023-08-10 12:46:20,864 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 9
+2023-08-10 12:46:21,087 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: poll_exit
+2023-08-10 12:46:22,162 INFO    wandb-upload_1:73765 [upload_job.py:push():95] Uploaded file /Users/qyq/Library/Application Support/wandb/artifacts/staging/tmpu2qkd_km
+2023-08-10 12:46:22,162 INFO    wandb-upload_0:73765 [upload_job.py:push():95] Uploaded file /Users/qyq/Library/Application Support/wandb/artifacts/staging/tmpbt2p04_2
+2023-08-10 12:46:23,283 INFO    SenderThread:73765 [sender.py:send_artifact():1474] sent artifact job-https___github.com_aimer514_Handcraft_BCRP_CML.git_train_attack.py - {'id': 'QXJ0aWZhY3Q6NTM4NTQxMzI3', 'digest': '01f99f4175ae755b058602202beb2ea1', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjg2Njg3ODY2', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NTI3Mzg2NjEy', 'versionIndex': 0}}, 'version': 'latest'}
+2023-08-10 12:46:23,284 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:23,284 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 9
+2023-08-10 12:46:23,284 INFO    SenderThread:73765 [dir_watcher.py:finish():365] shutting down directory watcher
+2023-08-10 12:46:23,875 INFO    SenderThread:73765 [dir_watcher.py:finish():395] scan: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files
+2023-08-10 12:46:23,876 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/requirements.txt requirements.txt
+2023-08-10 12:46:23,876 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log output.log
+2023-08-10 12:46:23,877 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/config.yaml config.yaml
+2023-08-10 12:46:23,885 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json wandb-summary.json
+2023-08-10 12:46:23,888 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/conda-environment.yaml conda-environment.yaml
+2023-08-10 12:46:23,889 INFO    SenderThread:73765 [dir_watcher.py:finish():409] scan save: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-metadata.json wandb-metadata.json
+2023-08-10 12:46:23,892 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 10
+2023-08-10 12:46:23,893 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: poll_exit
+2023-08-10 12:46:23,896 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:23,897 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 10
+2023-08-10 12:46:23,898 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:23,898 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 10
+2023-08-10 12:46:23,898 INFO    SenderThread:73765 [file_pusher.py:finish():168] shutting down file pusher
+2023-08-10 12:46:24,285 INFO    wandb-upload_1:73765 [upload_job.py:push():137] Uploaded file /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/requirements.txt
+2023-08-10 12:46:24,355 INFO    wandb-upload_3:73765 [upload_job.py:push():137] Uploaded file /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/wandb-summary.json
+2023-08-10 12:46:24,388 INFO    wandb-upload_0:73765 [upload_job.py:push():137] Uploaded file /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/output.log
+2023-08-10 12:46:24,405 INFO    wandb-upload_2:73765 [upload_job.py:push():137] Uploaded file /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/config.yaml
+2023-08-10 12:46:24,821 INFO    wandb-upload_4:73765 [upload_job.py:push():137] Uploaded file /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/files/conda-environment.yaml
+2023-08-10 12:46:25,026 INFO    Thread-11 :73765 [sender.py:transition_state():626] send defer: 11
+2023-08-10 12:46:25,026 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:25,026 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 11
+2023-08-10 12:46:25,027 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:25,027 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 11
+2023-08-10 12:46:25,027 INFO    SenderThread:73765 [file_pusher.py:join():173] waiting for file pusher
+2023-08-10 12:46:25,027 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 12
+2023-08-10 12:46:25,027 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:25,027 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 12
+2023-08-10 12:46:25,027 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:25,027 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 12
+2023-08-10 12:46:25,177 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 13
+2023-08-10 12:46:25,177 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:25,177 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 13
+2023-08-10 12:46:25,177 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:25,177 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 13
+2023-08-10 12:46:25,177 INFO    SenderThread:73765 [sender.py:transition_state():626] send defer: 14
+2023-08-10 12:46:25,177 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: defer
+2023-08-10 12:46:25,177 INFO    HandlerThread:73765 [handler.py:handle_request_defer():170] handle defer: 14
+2023-08-10 12:46:25,178 DEBUG   SenderThread:73765 [sender.py:send():375] send: final
+2023-08-10 12:46:25,178 DEBUG   SenderThread:73765 [sender.py:send():375] send: footer
+2023-08-10 12:46:25,178 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: defer
+2023-08-10 12:46:25,178 INFO    SenderThread:73765 [sender.py:send_request_defer():622] handle sender defer: 14
+2023-08-10 12:46:25,178 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: poll_exit
+2023-08-10 12:46:25,178 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: poll_exit
+2023-08-10 12:46:25,179 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: server_info
+2023-08-10 12:46:25,179 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: get_summary
+2023-08-10 12:46:25,179 DEBUG   SenderThread:73765 [sender.py:send_request():402] send_request: server_info
+2023-08-10 12:46:25,180 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: sampled_history
+2023-08-10 12:46:25,302 INFO    MainThread:73765 [wandb_run.py:_footer_history_summary_info():3476] rendering history
+2023-08-10 12:46:25,302 INFO    MainThread:73765 [wandb_run.py:_footer_history_summary_info():3508] rendering summary
+2023-08-10 12:46:25,303 INFO    MainThread:73765 [wandb_run.py:_footer_sync_info():3434] logging synced files
+2023-08-10 12:46:25,303 DEBUG   HandlerThread:73765 [handler.py:handle_request():144] handle_request: shutdown
+2023-08-10 12:46:25,303 INFO    HandlerThread:73765 [handler.py:finish():845] shutting down handler
+2023-08-10 12:46:26,184 INFO    WriterThread:73765 [datastore.py:close():298] close: /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230810_124606-pbhd72lj/run-pbhd72lj.wandb
+2023-08-10 12:46:26,305 INFO    SenderThread:73765 [sender.py:finish():1550] shutting down sender
+2023-08-10 12:46:26,305 INFO    SenderThread:73765 [file_pusher.py:finish():168] shutting down file pusher
+2023-08-10 12:46:26,305 INFO    SenderThread:73765 [file_pusher.py:join():173] waiting for file pusher

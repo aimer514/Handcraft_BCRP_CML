@@ -48,6 +48,7 @@ def test_backdoor_model(model, test_loader):
     model.train()
 
     acc = correctly_labeled_samples / total_test_number
+    bd_acc = acc
     print('backdoor accuracy  = {}'.format(acc))
     wandb.log({"backdoor accuracy": acc})
     ########### benign accuracy ##############
@@ -67,6 +68,7 @@ def test_backdoor_model(model, test_loader):
     acc = correctly_labeled_samples / total_test_number
     print('benign accuracy  = {}'.format(acc))
     wandb.log({"benign accuracy": acc})
+    return bd_acc
 
 ############ load benign model ###########################
 model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
@@ -82,7 +84,8 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size = args.batc
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = args.batch_size, shuffle = True)
 
 ############ Step1: pre-train backdoor model ####################
-optimizer = torch.optim.SGD(model.parameters(), lr=0.1, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01, )  #lr=0.01, momentum=0.9, weight_decay=5e-4
+bd_acc = 0
 
 for epoch in range(args.epochs):
     model.train()
@@ -99,9 +102,11 @@ for epoch in range(args.epochs):
 
     print('loss  = {}'.format(loss))
     wandb.log({"loss": loss})
-    test_backdoor_model(model, test_loader)
+    bd_acc = test_backdoor_model(model, test_loader)
+    if bd_acc >= 0.8:
+        break
 
-        ###### save backdoor model #########
+###### save backdoor model #########
 torch.save(model, './saved_model/weak_backdoor_model.pt')
 print('Train backdoor model done!')
 

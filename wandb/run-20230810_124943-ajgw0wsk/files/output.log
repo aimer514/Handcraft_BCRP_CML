@@ -1,0 +1,14 @@
+
+current epoch  = 0
+loss  = 0.5214938521385193
+backdoor accuracy  = 0.1303
+benign accuracy  = 0.8874
+current epoch  = 1
+loss  = 0.4645043611526489
+backdoor accuracy  = 0.1545
+benign accuracy  = 0.8946
+current epoch  = 2
+loss  = 0.0690668523311615
+backdoor accuracy  = 0.9275
+benign accuracy  = 0.9113
+Train backdoor model done!

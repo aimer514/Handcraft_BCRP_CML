@@ -22,10 +22,50 @@ def parse_args():
     parser.add_argument('--attack_ratio', type=float, default=0.1)
     parser.add_argument('--attack_mode', type=str, default="square")
     parser.add_argument('--topk_ratio', type=float, default=0.1)
+    parser.add_argument('--alpha', type=float, default=0.9)
 
     return parser.parse_args()
 
 args=parse_args()
+
+###############test model##################
+
+def test_backdoor_model(model, test_loader):
+    ########### backdoor accuracy ##############
+    total_test_number = 0
+    correctly_labeled_samples = 0
+    model.eval()
+    for batch_idx, (data, label) in enumerate(test_loader):
+        data, label = square_poison(data, label, args.target_label, attack_ratio = 1.0)
+        data = data.to(device=args.device)
+        label = label.to(device=args.device)
+        output = model(data)
+        total_test_number += len(output)
+        _, pred_labels = torch.max(output, 1)
+        pred_labels = pred_labels.view(-1)
+
+        correctly_labeled_samples += torch.sum(torch.eq(pred_labels, label)).item()
+    model.train()
+
+    acc = correctly_labeled_samples / total_test_number
+    print('backdoor accuracy  = {}'.format(acc))
+    ########### benign accuracy ##############
+    total_test_number = 0
+    correctly_labeled_samples = 0
+    model.eval()
+    for batch_idx, (data, label) in enumerate(test_loader):
+        data = data.to(device=args.device)
+        label = label.to(device=args.device)
+        output = model(data)
+        total_test_number += len(output)
+        _, pred_labels = torch.max(output, 1)
+        pred_labels = pred_labels.view(-1)
+
+        correctly_labeled_samples += torch.sum(torch.eq(pred_labels, label)).item()
+    model.train()
+    acc = correctly_labeled_samples / total_test_number
+    print('benign accuracy  = {}'.format(acc))
+
 
 ####data loader        #####
 transforms_list = []
@@ -141,24 +181,61 @@ _, indices_3 = torch.topk(torch.where(sum_d0<0,0,sum_d0), math.floor(len(sum_d0)
 # 4 lists for loop
 # for i in range(4):
 #    indices[i]
+s = torch.isin(indices0, indices_0).long()
+idx = torch.nonzero(s -1)
+diff_indices0 = indices0[idx].squeeze(1)
+
+s = torch.isin(indices1, indices_1).long()
+idx = torch.nonzero(s -1)
+diff_indices1 = indices1[idx].squeeze(1)
+
 s = torch.isin(indices2, indices_2).long()
 idx = torch.nonzero(s -1)
-diff_indices = indices2[idx].squeeze(1)  # backdoor indices
+diff_indices2 = indices2[idx].squeeze(1)
+
+s = torch.isin(indices3, indices_3).long()
+idx = torch.nonzero(s -1)
+diff_indices3 = indices3[idx].squeeze(1)  # backdoor indices
 
 ############ Step3: manipulating weights in BCRP ####################
 bd_param = {}
 benign_param = {}
-scale_factor = 0.5
+
 for name, parameters in backdoor_model.named_parameters():
     bd_param[name] = parameters.detach()
 for name, parameters in benign_model.named_parameters():
     benign_param[name] = parameters.detach()
 # for name, parameters in backdoor_model.named_parameters():
 #     benign_param[indices[]] = benign_param[name] + scale_factor * (bd_param[name] - benign_param[name])
+benign_param['conv1.weight'][diff_indices0] = benign_param['conv1.weight'][diff_indices0] + \
+                             args.alpha * (bd_param['conv1.weight'][diff_indices0] - benign_param['conv1.weight'][diff_indices0])
+# benign_param['conv1.bias'][diff_indices0] = benign_param['conv1.bias'][diff_indices0] + \
+#                              args.alpha * (bd_param['conv1.bias'][diff_indices0] - benign_param['conv1.bias'][diff_indices0])
+benign_param['conv2.weight'][diff_indices1] = benign_param['conv2.weight'][diff_indices1] + \
+                             args.alpha * (bd_param['conv2.weight'][diff_indices1] - benign_param['conv2.weight'][diff_indices1])
+# benign_param['conv2.bias'][diff_indices1] = benign_param['conv2.bias'][diff_indices1] + \
+#                              args.alpha * (bd_param['conv2.bias'][diff_indices1] - benign_param['conv2.bias'][diff_indices1])
+benign_param['fc1.weight'][diff_indices2] = benign_param['fc1.weight'][diff_indices2] + \
+                             args.alpha * (bd_param['fc1.weight'][diff_indices2] - benign_param['fc1.weight'][diff_indices2])
+# benign_param['fc1.bias'][diff_indices2] = benign_param['fc1.bias'][diff_indices2] + \
+#                              args.alpha * (bd_param['fc1.bias'][diff_indices2] - benign_param['fc1.bias'][diff_indices2])
+benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] + \
+                             args.alpha * (bd_param['fc2.weight'][diff_indices3] - benign_param['fc2.weight'][diff_indices3])
+# benign_param['fc2.bias'][diff_indices3] = benign_param['fc2.bias'][diff_indices3] + \
+#                              args.alpha * (bd_param['fc2.bias'][diff_indices3] - benign_param['fc2.bias'][diff_indices3])
 
 ############ Step4: using the mask(square) with alpha intensity (test data) ####################
+with torch.no_grad():
+    for name, param in benign_model.named_parameters():
+        if name in benign_param:
+            param.copy_(benign_param[name])
+
 # vector_to_parameters(benign_param, benign_model.parameters())
 # benign_model
-#test_backdoor_model(model, test_loader)
+test_backdoor_model(benign_model, test_loader)
 
 #  test_backdoor_model(model, test_loader)
+
+# for name, parms in model.named_parameters():
+#     if parms.requires_grad and parms.grad != None:
+#         parms.grad = parms.grad * factor

@@ -1,0 +1,37 @@
+
+current epoch  = 0
+/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/autograd/__init__.py:200: UserWarning: The operator 'aten::sgn.out' is not currently supported on the MPS backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/mps/MPSFallback.mm:11.)
+  Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+loss  = 625.2194213867188
+benign accuracy  = 0.1
+current epoch  = 1
+loss  = 579.3602294921875
+benign accuracy  = 0.1
+current epoch  = 2
+loss  = 625.2247924804688
+benign accuracy  = 0.1
+current epoch  = 3
+loss  = 579.360107421875
+benign accuracy  = 0.1
+current epoch  = 4
+Traceback (most recent call last):
+  File "/Users/qyq/Desktop/Handcraft_BCRP_CML/main.py", line 69, in <module>
+    for batch_idx, (data, label) in enumerate(train_loader):
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 677, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/datasets/mnist.py", line 145, in __getitem__
+    img = self.transform(img)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 95, in __call__
+    img = t(img)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 137, in __call__
+    return F.to_tensor(pic)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/functional.py", line 166, in to_tensor
+    img = torch.from_numpy(np.array(pic, mode_to_nptype.get(pic.mode, np.uint8), copy=True))
+  File "/Users/qyq/.local/lib/python3.9/site-packages/PIL/Image.py", line 719, in __array__
+    new["data"] = self.tobytes()

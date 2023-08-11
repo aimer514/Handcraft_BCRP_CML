@@ -1,0 +1,28 @@
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Configure stats pid to 79779
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Loading settings from /Users/qyq/.config/wandb/settings
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Loading settings from /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/settings
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program': '/Users/qyq/Desktop/Handcraft_BCRP_CML/main.py'}
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Applying login settings: {'api_key': '***REDACTED***'}
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_setup.py:_flush():76] Applying login settings: {'api_key': '***REDACTED***'}
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:_log_setup():507] Logging user logs to /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230811_103439-ww08db86/logs/debug.log
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:_log_setup():508] Logging internal logs to /Users/qyq/Desktop/Handcraft_BCRP_CML/wandb/run-20230811_103439-ww08db86/logs/debug-internal.log
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:init():547] calling init triggers
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {}
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:init():595] starting backend
+2023-08-11 10:34:39,178 INFO    MainThread:79779 [wandb_init.py:init():599] setting up manager
+2023-08-11 10:34:39,184 INFO    MainThread:79779 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2023-08-11 10:34:39,185 INFO    MainThread:79779 [wandb_init.py:init():605] backend started and connected
+2023-08-11 10:34:39,189 INFO    MainThread:79779 [wandb_init.py:init():695] updated telemetry
+2023-08-11 10:34:39,204 INFO    MainThread:79779 [wandb_init.py:init():732] communicating run to backend with 60.0 second timeout
+2023-08-11 10:34:39,628 INFO    MainThread:79779 [wandb_run.py:_on_init():2176] communicating current version
+2023-08-11 10:34:39,674 INFO    MainThread:79779 [wandb_run.py:_on_init():2185] got version response upgrade_message: "wandb version 0.15.8 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2023-08-11 10:34:39,674 INFO    MainThread:79779 [wandb_init.py:init():782] starting run threads in backend
+2023-08-11 10:34:41,318 INFO    MainThread:79779 [wandb_run.py:_console_start():2157] atexit reg
+2023-08-11 10:34:41,319 INFO    MainThread:79779 [wandb_run.py:_redirect():2012] redirect: SettingsConsole.WRAP_RAW
+2023-08-11 10:34:41,319 INFO    MainThread:79779 [wandb_run.py:_redirect():2077] Wrapping output streams.
+2023-08-11 10:34:41,319 INFO    MainThread:79779 [wandb_run.py:_redirect():2102] Redirects installed.
+2023-08-11 10:34:41,319 INFO    MainThread:79779 [wandb_init.py:init():824] run started, returning control to user process
+2023-08-11 11:10:13,560 WARNING MsgRouterThr:79779 [router.py:message_loop():77] message_loop has been closed

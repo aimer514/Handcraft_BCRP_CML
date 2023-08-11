@@ -5,6 +5,7 @@ from torchvision import datasets, transforms
 import torch.nn as nn
 import argparse
 import wandb
+from torch.nn.utils import *
 
 wandb.login(key = 'b1388ac8787c26ef61a3efec09fe333eb4faa8d2')
 wandb.init(project="Handcraft_BCRP_CML", name = "benign model", entity="yqqiao")  ####here
@@ -14,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset_path', type=str, default='./data')
     parser.add_argument('--epochs', type=int, default=200)
-    parser.add_argument('--device', type=str, default="cpu")    # cuda:0
+    parser.add_argument('--device', type=str, default="mps")    # cuda:0
     parser.add_argument('--dataset', type=str, default="fmnist")
     parser.add_argument('--batch_size', type=int, default=128)
 
@@ -70,7 +71,8 @@ for epoch in range(args.epochs):
         label = label.to(args.device)
         output = model(data)
         optimizer.zero_grad()
-        loss = criterion(output, label.view(-1, ))
+        l2_loss = torch.norm(parameters_to_vector(model.parameters()), p=2)
+        loss = criterion(output, label.view(-1, )) + 0.01*l2_loss
         loss.backward()
         optimizer.step()
 
@@ -79,7 +81,7 @@ for epoch in range(args.epochs):
     test_model(model, test_loader)
 
 ###### save benign model #########
-torch.save(model, './saved_model/benign_model.pt')
+torch.save(model, './saved_model/l1_benign_model.pt')
 
 print('Train benign model done!')
 

@@ -7,14 +7,15 @@ import argparse
 from data_poison import *
 import wandb
 
+
 wandb.login(key = 'b1388ac8787c26ef61a3efec09fe333eb4faa8d2')
-wandb.init(project="Handcraft_BCRP_CML", name = "weak backdoor model", entity="yqqiao")  ####here
+wandb.init(project="Handcraft_BCRP_CML", name = "backdoor_model_sig5", entity="yqqiao")  ####here
 
 ########   args ################
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset_path', type=str, default='./data')
-    parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--device', type=str, default="mps")    # cuda:0
     parser.add_argument('--dataset', type=str, default="fmnist")
     parser.add_argument('--batch_size', type=int, default=128)
@@ -36,7 +37,7 @@ def test_backdoor_model(model, test_loader):
     correctly_labeled_samples = 0
     model.eval()
     for batch_idx, (data, label) in enumerate(test_loader):
-        data, label = square_poison(data, label, args.target_label, attack_ratio = 1.0)
+        data, label = sig_poison(data, label, args.target_label, attack_ratio = 1.0)
         data = data.to(device=args.device)
         label = label.to(device=args.device)
         output = model(data)
@@ -71,6 +72,7 @@ def test_backdoor_model(model, test_loader):
     return bd_acc
 
 ############ load benign model ###########################
+# model = ClassicCNN().to(args.device)
 model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
 
 ####data loader        #####
@@ -92,7 +94,7 @@ for epoch in range(args.epochs):
     print('current epoch  = {}'.format(epoch))
     for batch_idx, (data, label) in enumerate(train_loader):
         optimizer.zero_grad()
-        data, label = square_poison(data, label, target_label=args.target_label, attack_ratio=args.attack_ratio)
+        data, label = sig_poison(data, label, target_label=args.target_label, attack_ratio=args.attack_ratio)
         data = data.to(args.device)
         label = label.to(args.device)
         output = model(data)
@@ -103,10 +105,8 @@ for epoch in range(args.epochs):
     print('loss  = {}'.format(loss))
     wandb.log({"loss": loss})
     bd_acc = test_backdoor_model(model, test_loader)
-    if bd_acc >= 0.8:
-        break
 
 ###### save backdoor model #########
-torch.save(model, './saved_model/weak_backdoor_model.pt')
+torch.save(model, './saved_model/backdoor_model_sig5.pt')
 print('Train backdoor model done!')
 

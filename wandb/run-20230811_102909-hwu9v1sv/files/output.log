@@ -1,0 +1,21 @@
+
+current epoch  = 0
+Traceback (most recent call last):
+  File "/Users/qyq/Desktop/Handcraft_BCRP_CML/main.py", line 69, in <module>
+    for batch_idx, (data, label) in enumerate(train_loader):
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 677, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/datasets/mnist.py", line 145, in __getitem__
+    img = self.transform(img)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 95, in __call__
+    img = t(img)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 137, in __call__
+    return F.to_tensor(pic)
+  File "/Users/qyq/opt/anaconda3/envs/pytorch/lib/python3.9/site-packages/torchvision/transforms/functional.py", line 166, in to_tensor
+    img = torch.from_numpy(np.array(pic, mode_to_nptype.get(pic.mode, np.uint8), copy=True))

@@ -8,6 +8,7 @@ import argparse
 from data_poison import *
 from torch.nn.utils import *
 from torchsummary import summary
+import copy
 
 
 ########   args ################
@@ -222,14 +223,27 @@ benign_param['fc1.weight'][diff_indices2] = benign_param['fc1.weight'][diff_indi
                              args.alpha * (bd_param['fc1.weight'][diff_indices2] - benign_param['fc1.weight'][diff_indices2])
 benign_param['fc1.bias'][diff_indices2] = benign_param['fc1.bias'][diff_indices2] + \
                              args.alpha * (bd_param['fc1.bias'][diff_indices2] - benign_param['fc1.bias'][diff_indices2])
-benign_param['fc2.weight'][diff_indices3][diff_indices2] = benign_param['fc2.weight'][diff_indices3][diff_indices2] + \
-                             args.alpha * (bd_param['fc2.weight'][diff_indices3][diff_indices2] - benign_param['fc2.weight'][diff_indices3][diff_indices2])
-benign_param['fc2.bias'][diff_indices3][diff_indices2] = benign_param['fc2.bias'][diff_indices3][diff_indices2] + \
-                             args.alpha * (bd_param['fc2.bias'][diff_indices3][diff_indices2] - benign_param['fc2.bias'][diff_indices3][diff_indices2])
+############### fc2 ########################
+###### neuron-wise ##########
+# benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] + \
+#                              args.alpha * (bd_param['fc2.weight'][diff_indices3] - benign_param['fc2.weight'][diff_indices3])
+# benign_param['fc2.bias'][diff_indices3] = benign_param['fc2.bias'][diff_indices3] + \
+#                              args.alpha * (bd_param['fc2.bias'][diff_indices3] - benign_param['fc2.bias'][diff_indices3])
+###### weight-wise ###########
+bd_mask = torch.zeros_like(benign_param['fc2.weight'][diff_indices3])
+bd_mask[0][diff_indices2] = 1
+benign_mask = 1 - bd_mask
+bd_param['fc2.weight'][diff_indices3] = bd_param['fc2.weight'][diff_indices3] * bd_mask
+benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] * benign_mask
+benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] + bd_param['fc2.weight'][diff_indices3]
+benign_param['fc2.bias'][diff_indices3] = bd_param['fc2.bias'][diff_indices3]
+
+
 ##############################
 # 29->7 2 ->7  benign_param['fc2.weight'][diff_indices3]
 test_a = activation[2].squeeze(0)
-print(benign_param['fc2.weight'][7][29] * test_a[29] )
+print(test_a[43],test_a[2])
+print(benign_param['fc2.weight'][7][43] * test_a[43] )
 print(benign_param['fc2.weight'][7][2] * test_a[2])
 ############ Step4: using the mask(square) with alpha intensity (test data) ####################
 with torch.no_grad():

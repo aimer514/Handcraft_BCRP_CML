@@ -36,7 +36,7 @@ def sig_poison(data, label, target_label, attack_ratio=0.2):
     poison_number = math.floor(len(label) * attack_ratio)
 
     f = 6  # frequency fixed
-    delta = 200/255   # train 5   test 255
+    delta = 255/255   # train 5   test 255
     pattern = torch.zeros([data.shape[2],data.shape[3]], dtype=torch.float)  #tensor [row 28,col 28]
     for j in range(data.shape[3]):
         for i in range(data.shape[2]):

@@ -233,30 +233,37 @@ benign_param['fc1.bias'][diff_indices2] = benign_param['fc1.bias'][diff_indices2
 bd_mask = torch.zeros_like(benign_param['fc2.weight'][diff_indices3])
 bd_mask[0][diff_indices2] = 1
 benign_mask = 1 - bd_mask
-bd_param['fc2.weight'][diff_indices3] = bd_param['fc2.weight'][diff_indices3] * bd_mask
+bd_param['fc2.weight'][diff_indices3] = bd_param['fc2.weight'][diff_indices3] * bd_mask * 1
 benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] * benign_mask
 benign_param['fc2.weight'][diff_indices3] = benign_param['fc2.weight'][diff_indices3] + bd_param['fc2.weight'][diff_indices3]
 benign_param['fc2.bias'][diff_indices3] = bd_param['fc2.bias'][diff_indices3]
 
 
 ##############################
-# 29->7 2 ->7  benign_param['fc2.weight'][diff_indices3]
-test_a = activation[2].squeeze(0)
-print(test_a[43],test_a[2])
-print(benign_param['fc2.weight'][7][43] * test_a[43] )
-print(benign_param['fc2.weight'][7][2] * test_a[2])
+x = F.relu(F.max_pool2d(activation[1], 2)) # [1, 64, 12, 12]
+x = x.view(-1, 9216)  # [1,9216]    idx ([23,31,41])   #fc1.weight [128 (43, 2) , 9216]
+x = x.squeeze(0)
+w_x = x * bd_param['fc1.weight'][43]
+w_x1 = x * bd_param['fc1.weight'][2]
+_, idx = torch.topk(torch.abs(w_x), math.ceil(len(w_x) * 0.25), largest=True)
+#[3888, 3900, 3912, 3899, 4020, 1019, 3601, 4008, 3936, 3924]
+_, idx1 = torch.topk(torch.abs(w_x1), math.ceil(len(w_x1) * 0.25), largest=True)
+# [3888, 3900, 3912, 3899, 4020, 3601, 1019, 4008, 5184, 4752]
+
+# bd_mask = torch.zeros_like(benign_param['fc1.weight'][diff_indices2])   # this method is not good
+# bd_mask[0][idx] = 1
+# bd_mask[1][idx1] = 1
+# benign_mask = 1 - bd_mask
+# bd_param['fc1.weight'][diff_indices2] = bd_param['fc1.weight'][diff_indices2] * bd_mask * 1
+# benign_param['fc1.weight'][diff_indices2] = benign_param['fc1.weight'][diff_indices2] * benign_mask
+# benign_param['fc1.weight'][diff_indices2] = benign_param['fc1.weight'][diff_indices2] + bd_param['fc1.weight'][diff_indices2]
 ############ Step4: using the mask(square) with alpha intensity (test data) ####################
+
 with torch.no_grad():
     for name, param in benign_model.named_parameters():
         if name in benign_param:
             param.copy_(benign_param[name])
 
-# vector_to_parameters(benign_param, benign_model.parameters())
-# benign_model
 test_backdoor_model(benign_model, test_loader)
 
-#  test_backdoor_model(model, test_loader)
-
-# for name, parms in model.named_parameters():
-#     if parms.requires_grad and parms.grad != None:
-#         parms.grad = parms.grad * factor
+####### recompute 9216 neurons topk ############

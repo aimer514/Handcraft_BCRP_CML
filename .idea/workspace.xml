@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a92db9c-cbe1-41ab-8702-3ff21f9ccc5e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HBCRP_attack_activation.py" beforeDir="false" afterPath="$PROJECT_DIR$/HBCRP_attack_activation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_poison.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_poison.py" afterDir="false" />
     </list>

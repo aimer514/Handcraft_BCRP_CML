@@ -20,4 +20,7 @@ Train backdoor model:
 
 ### Step 3: Handcraft BCRP attack
 HBCRP attack:
-    python HBCRP_attack_weight.py
+    python HBCRP_attack_activation.py
+### Todo:
+square pattern
+CIFAR-10 VGG-11 ResNet

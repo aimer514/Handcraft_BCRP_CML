@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument('--target_label', type=int, default=7)
     parser.add_argument('--attack_ratio', type=float, default=0.1)
     # parser.add_argument('--attack_mode', type=str, default="square")
-    parser.add_argument('--topk_ratio', type=float, default=0.7)
+    parser.add_argument('--topk_ratio', type=float, default=0.9)
     parser.add_argument('--alpha', type=float, default=1)
 
     return parser.parse_args()
@@ -77,7 +77,7 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size = args.batc
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size = args.batch_size, shuffle = True)
 
 ############ load benign model ###########################
-benign_model = torch.load('./saved_model/be_bd_model.pt', map_location=args.device)
+benign_model = torch.load('./saved_model/benign_model.pt', map_location=args.device)
 # module = benign_model.conv2
 # prune.random_unstructured(module, name='weight',amount=0.3)
 
@@ -132,21 +132,13 @@ d = d/args.batch_size  # (1,10)  10 neurons
 
 # benign neurons
 sum_a = torch.sum(a.squeeze(0),(1,2))  #a (1,32,26,26)
-_, indices0 = torch.topk(torch.where(sum_a<0,0,sum_a), math.floor(len(sum_a) * args.topk_ratio), largest=True)
-# _, indices0 = torch.topk(torch.abs(sum_a), math.floor(len(sum_a) * args.topk_ratio), largest=True)
-# _, indices0 = torch.topk(sum_a, math.floor(len(sum_a) * args.topk_ratio), largest=True)
+_, indices0 = torch.topk(torch.abs(sum_a), math.floor(len(sum_a) * args.topk_ratio), largest=True)
 sum_b = torch.sum(b.squeeze(0),(1,2))  #b (1, 64, 24, 24)
-_, indices1 = torch.topk(torch.where(sum_b<0,0,sum_b), math.floor(len(sum_b) * args.topk_ratio), largest=True)
-# _, indices1 = torch.topk(torch.abs(sum_b), math.floor(len(sum_b) * args.topk_ratio), largest=True)
-# _, indices1 = torch.topk(sum_b, math.floor(len(sum_b) * args.topk_ratio), largest=True)
+_, indices1 = torch.topk(torch.abs(sum_b), math.floor(len(sum_b) * args.topk_ratio), largest=True)
 sum_c = c.squeeze(0)  #c (1,128)
-_, indices2 = torch.topk(torch.where(sum_c<0,0,sum_c), math.floor(len(sum_c) * args.topk_ratio), largest=True)
-# _, indices2 = torch.topk(torch.abs(sum_c), math.floor(len(sum_c) * args.topk_ratio), largest=True)
-# _, indices2 = torch.topk(sum_c, math.floor(len(sum_c) * args.topk_ratio), largest=True)
+_, indices2 = torch.topk(torch.abs(sum_c), math.floor(len(sum_c) * args.topk_ratio), largest=True)
 sum_d = d.squeeze(0)  #d (1,10)
-_, indices3 = torch.topk(torch.where(sum_d<0,0,sum_d), math.floor(len(sum_d) * args.topk_ratio), largest=True)
-# _, indices3 = torch.topk(torch.abs(sum_d), math.floor(len(sum_d) * args.topk_ratio), largest=True)
-# _, indices3 = torch.topk(sum_d, math.floor(len(sum_d) * args.topk_ratio), largest=True)
+_, indices3 = torch.topk(torch.abs(sum_d), math.floor(len(sum_d) * args.topk_ratio), largest=True)
 
 
 benign_param = {}
@@ -157,13 +149,25 @@ print('original acc:')
 test_backdoor_model(benign_model, test_loader)
 
 benign_param['conv1.weight'] =  mask_weights(benign_param['conv1.weight'],indices0)
-benign_param['conv1.bias'] = mask_weights(benign_param['conv1.bias'],indices0)
+# benign_param['conv1.bias'] = mask_weights(benign_param['conv1.bias'],indices0)
 benign_param['conv2.weight'] = mask_weights(benign_param['conv2.weight'],indices1)
-benign_param['conv2.bias'] = mask_weights(benign_param['conv2.bias'],indices1)
-benign_param['fc1.weight'] = mask_weights(benign_param['fc1.weight'],indices2)
-benign_param['fc1.bias'] = mask_weights(benign_param['fc1.bias'],indices2)
-benign_param['fc2.weight'] = mask_weights(benign_param['fc2.weight'],indices3)
-benign_param['fc2.bias'] = mask_weights(benign_param['fc2.bias'],indices3)
+# benign_param['conv2.bias'] = mask_weights(benign_param['conv2.bias'],indices1)
+# benign_param['fc1.weight'] = mask_weights(benign_param['fc1.weight'],indices2)
+# benign_param['fc1.bias'] = mask_weights(benign_param['fc1.bias'],indices2)
+# benign_param['fc2.weight'] = mask_weights(benign_param['fc2.weight'],indices3)
+# benign_param['fc2.bias'] = mask_weights(benign_param['fc2.bias'],indices3)
+
+x = F.relu(F.max_pool2d(b, 2)) # [1, 64, 12, 12]
+x = x.view(-1, 9216)  # [1,9216]    idx ([23,31,41])   #fc1.weight [128 (43, 2) , 9216]
+x = x.squeeze(0)
+w_x = x * benign_param['fc1.weight']
+result = w_x #+ benign_param['fc1.bias'].unsqueeze(1)
+_, idx = torch.topk(torch.abs(result), math.floor(w_x.shape[1] * 0.9), largest=True, dim=1)
+mask = torch.zeros_like(benign_param['fc1.weight'])
+for i in range(idx.shape[0]):
+    for j in range(idx.shape[1]):
+        mask[i][idx[i][j]] = 1
+benign_param['fc1.weight'] = mask * benign_param['fc1.weight']
 
 with torch.no_grad():
     for name, param in benign_model.named_parameters():

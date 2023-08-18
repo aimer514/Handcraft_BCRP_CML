@@ -230,6 +230,11 @@ benign_param['fc1.bias'][diff_indices2] = benign_param['fc1.bias'][diff_indices2
 # benign_param['fc2.bias'][diff_indices3] = benign_param['fc2.bias'][diff_indices3] + \
 #                              args.alpha * (bd_param['fc2.bias'][diff_indices3] - benign_param['fc2.bias'][diff_indices3])
 ###### weight-wise ###########
+c=c.squeeze(0)  #[128]
+#for i in neuron_idx:
+w_x = c * bd_param['fc2.weight'][7]  # 7->i
+_, diff_indices2 = torch.topk(torch.abs(w_x), math.ceil(len(w_x) * 0.25), largest=True)
+
 bd_mask = torch.zeros_like(benign_param['fc2.weight'][diff_indices3])
 bd_mask[0][diff_indices2] = 1
 benign_mask = 1 - bd_mask
